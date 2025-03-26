@@ -1,6 +1,5 @@
 import os 
 from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel
 
 MONGO_URL = os.getenv("MONGO_URL")
 client = AsyncIOMotorClient(MONGO_URL)
@@ -10,16 +9,3 @@ db = client["mydatabase"]
 users_collection = db["users"]
 diagnosis_collection = db["diagnosis"]
 user_images_collection = db["user_images"]
-
-class UserCreate(BaseModel):
-    username: str
-    password: str
-    role: str   # "manager" or "base"
-
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str

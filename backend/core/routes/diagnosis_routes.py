@@ -1,7 +1,8 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Request
+from fastapi import APIRouter, UploadFile, File, HTTPException, Request, Depends
 from image_processing import predict_diagnosis
 from datetime import datetime
-import io, uuid, os
+from auth import get_current_user
+from database import diagnosis_collection
 
 router = APIRouter()
 
@@ -16,7 +17,7 @@ def validate_image_file(file: UploadFile):
         )
 
 @router.post("/pretrained")
-async def diagnose_pretrained(request: Request, image_file: UploadFile = File(...)):
+async def diagnose_pretrained(request: Request, image_file: UploadFile = File(...), current_user: dict = Depends(get_current_user)):
     try:
         validate_image_file(image_file)
         image_bytes = await image_file.read()
@@ -24,6 +25,15 @@ async def diagnose_pretrained(request: Request, image_file: UploadFile = File(..
         if model is None:
             raise HTTPException(status_code=500, detail="Model chưa được load.")
         result = predict_diagnosis(model, image_bytes)
+        
+        doc = {
+        "user_id": str(current_user["_id"]),
+        "image_name": image_file.filename,
+        "predicted_label": result["predicted_label"],
+        "confidence": result["confidence"],
+        "created_at": datetime.utcnow()
+    }
+        diagnosis_collection.insert_one(doc)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 from minio import Minio
-from vector_db import QdrantProvider
-from sentence_transformers import SentenceTransformer
+# from vector_db import QdrantProvider
+# from sentence_transformers import SentenceTransformer
 load_dotenv()
 
 
@@ -23,8 +23,8 @@ minio_client = Minio(
 if not minio_client.bucket_exists(MINIO_BUCKET):
     minio_client.make_bucket(MINIO_BUCKET)
 
-vectordb_provider = QdrantProvider()
-vectordb_provider.create_collection(QDRANT_COLLECTION)
+# vectordb_provider = QdrantProvider()
+# vectordb_provider.create_collection(QDRANT_COLLECTION)
 
-MODEL_NAME = 'VoVanPhuc/sup-SimCSE-VietNamese-phobert-base'
-model = SentenceTransformer(MODEL_NAME, trust_remote_code=True)
+# MODEL_NAME = 'VoVanPhuc/sup-SimCSE-VietNamese-phobert-base'
+# model = SentenceTransformer(MODEL_NAME, trust_remote_code=True)

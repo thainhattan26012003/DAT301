@@ -11,7 +11,6 @@ class ChatRequest(BaseModel):
 @router.post("/chat")
 async def chat_endpoint(chat_request: ChatRequest):
     try:
-        # Sử dụng diagnosis context được truyền từ client
         answer = await rag_flow(chat_request.question, chat_request.diagnosis)
         return {"answer": answer}
     except Exception as e:

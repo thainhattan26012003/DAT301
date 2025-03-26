@@ -2,7 +2,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import diagnosis_routes, chat_routes, user_routes
+from routes import diagnosis_routes, chat_routes, user_routes, upload_images
 from image_processing import load_model_from_file
 
 app = FastAPI()
@@ -29,3 +29,4 @@ def load_pretrained_model():
 app.include_router(diagnosis_routes.router, prefix="/api/diagnosis")
 app.include_router(chat_routes.router, prefix="/api/chat")
 app.include_router(user_routes.router, prefix="/api/users")
+app.include_router(upload_images.router, prefix="/api/images")

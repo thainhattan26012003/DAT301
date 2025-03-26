@@ -1,4 +1,3 @@
-// frontend/src/Home.js
 import React, { useState } from 'react';
 import Chatbot from '../components/Chatbot';
 
