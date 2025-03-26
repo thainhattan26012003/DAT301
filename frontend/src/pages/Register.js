@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('base');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -13,7 +12,8 @@ const Register = () => {
       const response = await fetch('http://localhost:912/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, role }),
+        // Chỉ gửi username và password
+        body: JSON.stringify({ username, password }),
       });
       if (response.ok) {
         alert('Đăng ký thành công');
@@ -47,14 +47,6 @@ const Register = () => {
             style={styles.input}
             required
           />
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            style={styles.input}
-          >
-            <option value="base">User Base (Chỉ xem & hỏi đáp)</option>
-            <option value="manager">User Manager (Có quyền upload PDF)</option>
-          </select>
           <button type="submit" style={styles.button}>
             Đăng ký
           </button>
